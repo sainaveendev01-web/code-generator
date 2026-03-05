@@ -2,144 +2,137 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Gemini Simulation — Sai Naveen</title>
+<title>Instagram Simulation — Sai Naveen</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 :root {
-    --bg: #05070a;
-    --card: #111318;
-    --border: #2c2e33;
-    --accent: #4e8cff; /* Gemini Blue */
-    --accent2: #b588ff; /* Gemini Purple */
-    --text: #e8eaed;
-    --muted: #9aa0a6;
+    --ig-bg: #000000;
+    --ig-card: #121212;
+    --ig-border: #262626;
+    --ig-link: #0095f6;
+    --ig-text: #f5f5f5;
+    --ig-muted: #a8a8a8;
+    --ig-grad: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
 }
-*{box-sizing:border-box;margin:0;padding:0;}
-body{
-    font-family: 'Google Sans', 'Inter', system-ui, sans-serif;
-    background: 
-        radial-gradient(circle at 0% 0%, rgba(78, 140, 255, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 100% 100%, rgba(181, 136, 255, 0.1) 0%, transparent 40%),
-        var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 30px 20px;
+*{box-sizing:border-box; margin:0; padding:0;}
+body {
+    background-color: var(--ig-bg);
+    color: var(--ig-text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
-.page{max-width:1280px;margin:0 auto;}
-header{text-align:left;margin-bottom:30px; border-left: 4px solid var(--accent); padding-left: 20px;}
-.pill{display:inline-flex; align-items:center; gap:8px; padding:4px 12px; border-radius:8px; background: rgba(78, 140, 255, 0.1); color: var(--accent); font-weight: 500; font-size: 12px; margin-bottom: 10px;}
-h1{font-size:32px; font-weight: 400; letter-spacing:-0.5px; margin-bottom: 8px; background: linear-gradient(90deg, #4e8cff, #b588ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
-.sub{color:var(--muted); font-size:15px;}
-
-.grid{display:grid; grid-template-columns: 1fr; gap:24px;}
-@media(min-width:1024px){.grid{grid-template-columns: 1fr 1fr;}}
-
-.card{background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 24px; transition: 0.3s;}
-.card:hover{border-color: #444;}
-.card-title{font-size:12px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:16px;}
-
-textarea{
-    width:100%; min-height:300px; padding:16px; border-radius:16px; border:1px solid var(--border); 
-    background:#0b0d11; color:#bdc1c6; font-family: "JetBrains Mono", monospace; font-size:13px; outline:none;
+.navbar {
+    height: 60px; border-bottom: 1px solid var(--ig-border);
+    display: flex; align-items: center; justify-content: center;
+    position: sticky; top: 0; background: var(--ig-bg); z-index: 100;
 }
-textarea:focus{border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent);}
+.nav-content { width: 100%; max-width: 935px; display: flex; justify-content: space-between; padding: 0 20px; font-weight: bold; font-size: 18px; }
 
-.controls{display:flex; gap:12px; margin-top:20px; align-items:center;}
-.btn{
-    background: var(--text); color: var(--bg); border:none; border-radius:100px; 
-    padding:10px 24px; font-weight:500; cursor:pointer; font-size:14px; transition: 0.2s;
-}
-.btn:hover{background: #fff; transform: scale(1.02);}
-.btn-sec{
-    background: transparent; border: 1px solid var(--border); color: var(--text); 
-    border-radius:100px; padding:10px 20px; cursor:pointer; font-size:14px;
-}
-.btn-sec:hover{background: rgba(255,255,255,0.05);}
+.main-container { max-width: 935px; margin: 30px auto; display: grid; grid-template-columns: 1fr; gap: 28px; padding: 0 10px; }
+@media(min-width: 768px) { .main-container { grid-template-columns: 1.5fr 1fr; } }
 
-.tabs{display:flex; gap:8px; margin-bottom:20px;}
-.tab{
-    padding:8px 16px; font-size:14px; border-radius:100px; border:1px solid var(--border);
-    background: transparent; color: var(--muted); cursor: pointer; transition: 0.2s;
+/* Feed Card Style */
+.card { background: var(--ig-bg); border: 1px solid var(--ig-border); border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+.card-header { padding: 14px; display: flex; align-items: center; gap: 12px; }
+.avatar { 
+    width: 32px; height: 32px; border-radius: 50%; padding: 2px;
+    background: var(--ig-grad);
 }
-.tab.active{background: rgba(78, 140, 255, 0.1); color: var(--accent); border-color: var(--accent);}
+.avatar-inner { width: 100%; height: 100%; background: #000; border-radius: 50%; border: 2px solid #000; }
 
-.table-wrap{border-radius:16px; border:1px solid var(--border); overflow: hidden;}
-table{width:100%; border-collapse:collapse; background: #0b0d11;}
-th{background: #111318; padding: 12px; text-align: left; font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--border);}
-td{padding: 12px; font-size: 13px; border-bottom: 1px solid var(--border);}
-.badge{padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;}
-.badge.KEYWORD{color: #8ab4f8; background: rgba(138, 180, 248, 0.1);}
-.badge.IDENTIFIER{color: #81c995; background: rgba(129, 201, 149, 0.1);}
-
-footer{
-    margin-top:40px; padding-top:20px; border-top: 1px solid var(--border);
-    display:flex; justify-content: space-between; color: var(--muted); font-size: 14px;
+.editor-box { background: #000; padding: 0 10px 10px; }
+textarea {
+    width: 100%; min-height: 250px; background: #000; color: #fff;
+    border: none; padding: 15px; font-family: 'Courier New', monospace; font-size: 14px; outline: none; resize: vertical;
 }
-.hidden {display: none;}
+
+.action-bar { padding: 12px; display: flex; gap: 15px; border-top: 1px solid var(--ig-border); }
+.ig-btn { background: var(--ig-link); color: white; border: none; padding: 7px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+.ig-btn:hover { background: #1877f2; }
+
+/* Table/Results Style */
+.results-header { padding: 12px; font-weight: 600; border-bottom: 1px solid var(--ig-border); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 12px; color: var(--ig-muted); border-bottom: 1px solid var(--ig-border); }
+td { padding: 12px; border-bottom: 1px solid #1a1a1a; }
+
+.token-type { color: var(--ig-link); font-weight: 500; }
+
+footer {
+    max-width: 935px; margin: 50px auto; padding: 20px; text-align: center;
+    border-top: 1px solid var(--ig-border); color: var(--ig-muted); font-size: 12px;
+}
 </style>
 </head>
 <body>
-<div class="page">
-<header>
-  <div class="pill">Powered by Gemini UI</div>
-  <h1>Compiler Design Simulation</h1>
-  <p class="sub">Advanced Lexical Analysis and Target Code Generation</p>
-</header>
 
-<div class="grid">
-  <div class="card">
-    <div class="card-title">Code Editor</div>
-    <textarea id="code" spellcheck="false">
+<div class="navbar">
+    <div class="nav-content">
+        <span>CompilerGram</span>
+        <div style="font-size: 14px; color: var(--ig-link);">Simulation Active</div>
+    </div>
+</div>
+
+<div class="main-container">
+    <section>
+        <div class="card">
+            <div class="card-header">
+                <div class="avatar"><div class="avatar-inner"></div></div>
+                <div style="font-size: 14px; font-weight: 600;">sai_naveen_compiler</div>
+            </div>
+            <div class="editor-box">
+                <textarea id="code" placeholder="Write your code here...">
 int main() {
-    int x = 10;
-    if (x > 5) {
-        print("Success");
+    float result = 50.5;
+    if (result > 10) {
+        return 1;
     }
-    return 0;
 }</textarea>
-    <div class="controls">
-      <button class="btn" id="run">Run Simulation</button>
-      <button class="btn-sec" id="clear">Clear</button>
-      <span id="status" style="font-size: 12px; color: var(--muted)">Ready</span>
-    </div>
-  </div>
+            </div>
+            <div class="action-bar">
+                <button class="ig-btn" id="run">Analyze</button>
+                <button style="background:transparent; border:none; color:var(--ig-text); cursor:pointer; font-weight:600;" id="clear">Reset</button>
+            </div>
+        </div>
+    </section>
 
-  <div class="card">
-    <div class="tabs">
-      <button class="tab active" data-tab="tokens">Tokens</button>
-      <button class="tab" data-tab="tac">TAC</button>
-      <button class="tab" data-tab="asm">Assembly</button>
-    </div>
-    <div id="panel-tokens" class="table-wrap">
-        <table>
-            <thead><tr><th>Token</th><th>Type</th><th>Line</th></tr></thead>
-            <tbody id="token-tbody"><tr><td colspan="3" style="text-align:center; padding:40px; color:var(--muted)">Run to see lexemes</td></tr></tbody>
-        </table>
-    </div>
-    <div id="panel-tac" class="hidden" style="font-family: monospace; padding: 10px;">TAC Output...</div>
-    <div id="panel-asm" class="hidden" style="font-family: monospace; padding: 10px;">Assembly Output...</div>
-  </div>
+    <aside>
+        <div class="card">
+            <div class="results-header">Output Analysis</div>
+            <div style="max-height: 400px; overflow-y: auto;">
+                <table>
+                    <thead>
+                        <tr><th>Lexeme</th><th>Token</th></tr>
+                    </thead>
+                    <tbody id="token-tbody">
+                        <tr><td colspan="2" style="text-align:center; padding:30px; color:var(--ig-muted);">No analysis data yet</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </aside>
 </div>
 
 <footer>
-  <div>Student: <strong>Sai Naveen</strong></div>
-  <div>ID: <strong>RA2311003050059</strong></div>
+    <div style="margin-bottom: 10px;">
+        <span style="margin-right: 15px;">SAI NAVEEN</span>
+        <span>REG NO: RA2311003050059</span>
+    </div>
+    <p>© 2026 COMPILER DESIGN PROJECT</p>
 </footer>
-</div>
 
 <script>
-    // Logic for tab switching
-    document.querySelectorAll('.tab').forEach(button => {
-        button.onclick = () => {
-            document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-            button.classList.add('active');
-            const target = button.getAttribute('data-tab');
-            ['tokens', 'tac', 'asm'].forEach(p => {
-                document.getElementById('panel-' + p).classList.add('hidden');
-            });
-            document.getElementById('panel-' + target).classList.remove('hidden');
-        };
-    });
+    // Theme is purely visual. You can add your specific 
+    // Lexical Analysis JS logic here to populate the table.
+    document.getElementById('run').onclick = function() {
+        const tbody = document.getElementById('token-tbody');
+        tbody.innerHTML = `
+            <tr><td>int</td><td class="token-type">KEYWORD</td></tr>
+            <tr><td>main</td><td class="token-type">IDENTIFIER</td></tr>
+            <tr><td>(</td><td class="token-type">OPERATOR</td></tr>
+            <tr><td>)</td><td class="token-type">OPERATOR</td></tr>
+        `;
+    };
 </script>
+
 </body>
 </html>
